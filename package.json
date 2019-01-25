@@ -5,7 +5,7 @@
     "node": "11.6.0"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "Rojak",
