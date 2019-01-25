@@ -42,7 +42,7 @@ app.use(passport.initialize());
 //Passport Config
 require("./config/passport")(passport);
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
 	app.use(express.static(path.join(__dirname, "/client/build/index.html")));
 });
 app.listen(port, () => console.log(`Server is running on port ${port}`));
