@@ -18,11 +18,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false, }));
 app.use(cookieParser());
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "client/build")));
-} else {
-	app.use(express.static(path.join(__dirname, "public")));
-}
+app.use(express.static(path.join(__dirname, "client/build")));
 app.use(require("body-parser").text());
 
 app.use("/api/users", usersRouter);
@@ -47,6 +43,6 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 app.get("/", (req, res) => {
-	res.sendFile(path.join(`${__dirname  }/client/build/index.html`));
+	app.use(express.static(path.join(__dirname, "/client/build/index.html")));
 });
 app.listen(port, () => console.log(`Server is running on port ${port}`));
