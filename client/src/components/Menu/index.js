@@ -62,7 +62,7 @@ class Menu extends React.Component<Props, State> {
       <React.Fragment>
         <div className="menu-header">
           <Link to="/">
-            <h1>Tila Catering</h1>
+            <h1>Tilaa Catering</h1>
           </Link>
           <div id="sidebar-menu">
             <ul>
