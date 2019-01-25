@@ -1,0 +1,133 @@
+@mixin menu-list {
+  ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    li {
+      list-style: none;
+      font-weight: bold;
+      padding: 0 20px;
+      cursor: pointer;
+      a {
+        color: $primary;
+        text-transform: capitalize;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      a:hover {
+        color: $on-dark;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.menu-header {
+  display: grid;
+  grid-template-columns: max-content 1fr min-content;
+  position: fixed;
+  width: 100vw;
+  max-width: 100%;
+  box-shadow: none;
+  background-color: $secondary-dark;
+  height: 60px;
+  overflow: hidden;
+  z-index: 10;
+  top: 0;
+  padding: 0 20px;
+  align-items: center;
+  a {
+    text-align: left;
+    align-self: center;
+    text-decoration: none;
+    h1 {
+      color: $primary-light;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+#sidebar-menu {
+  @include menu-list();
+  padding-left: 20px;
+}
+.burger{
+  display:none;
+}
+.logout-panel {
+  text-align: right;
+  button {
+    margin: 10px;
+  }
+}
+
+@media only screen and (max-width: $break-large) {
+  .menu-header {
+    a {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+    ul {
+      li {
+        a {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+  .logout-panel {
+    font-size: 0.8rem;
+  }
+}
+@media only screen and (max-width: $break-medium) {
+  .menu-header {
+    // grid-template-columns: 2fr 5fr 2fr;
+  }
+}
+@media only screen and (max-width: $break-small) {
+  .menu-header {
+    grid-template-columns: 2fr 3fr 1fr;
+    padding: 0;
+    a {
+      h1 {
+        font-size: 1rem;
+      }
+    }
+    #sidebar-menu{
+      display:none;
+    }
+    .logout-panel{
+      display: none;
+    }
+    .burger {
+      display: block;
+      position: fixed;
+      right: 5px;
+      top: 60px;
+      @include menu-list();
+      background-color: transparent;
+      ul {
+        display: block;
+        li {
+          margin-top: 5px;
+          box-shadow: 1px 1px 2px 0px $secondary-darker ;
+          background-color: $secondary-dark;
+          text-align: right;
+          padding: 15px;
+          border-radius:50%;
+          a {
+            // font-size: 1rem;
+            color: $primary-dark;
+          }
+        }
+        li:hover {
+          background-color: $secondary;
+        }
+      }
+    }
+  }
+  .logout-panel {
+    font-size: 0.6rem;
+  }
+}

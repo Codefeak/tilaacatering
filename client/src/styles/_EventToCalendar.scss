@@ -1,0 +1,36 @@
+.event-to-calendar {
+  position: relative;
+
+  &__button {
+    width: stretch;
+    margin: 10px 0px 10px 0;
+  }
+
+  &__list {
+    width: stretch;
+    position: absolute;
+    margin-top: -5px;
+
+    &__link {
+      & a {
+        margin-top: 0;
+        margin-bottom: 0;
+        display: block;
+        background-color: #949494;
+        color: inherit;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 0.5em;
+        text-align: center;
+
+        &:visited {
+          color: inherit;
+        }
+
+        &:hover {
+          background-color: lighten(#949494, 10);
+        }
+      }
+    }
+  }
+}

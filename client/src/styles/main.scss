@@ -1,0 +1,244 @@
+// import components stylesheets
+
+@import './variables/variables';
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+html {
+  body {
+    overflow-x: hidden;
+    height: 100%;
+    background: $primary;
+    padding: 0;
+    margin: 0;
+    font-family: 'Varela Round', sans-serif;
+  }
+}
+.app {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  background-color: $primary-dark;
+
+  .main-container {
+    width: 100%;
+    margin-top: 60px;
+    overflow-x: hidden;
+
+    &__background {
+      position: absolute;
+      overflow: hidden;
+      z-index: 1;
+      height: 60vh;
+      width: 120%;
+      background-position: center;
+      background-size: cover;
+      filter: blur(10px);
+      top: -10px;
+      left: -10px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+    .routes-container {
+      position: relative;
+      max-width: $break-large;
+      min-height: 50vh;
+      margin: 60px auto 0;
+      background-color: $primary;
+      box-shadow: 1px 1px 1px 1px gray;
+      border-radius: 10px;
+      z-index: 2;
+
+      // padding for .routes-container
+      & > *:not(.loader-container):not(.divider) {
+        margin: 0px 80px 10px;
+        &:first-child {
+          padding-top: 60px;
+        }
+        &:last-child {
+          padding-bottom: 60px;
+        }
+      }
+
+      h1 {
+        color: $secondary;
+      }
+    }
+  }
+}
+@import './loginLayout';
+@import './Event';
+@import './menu.scss';
+@import './SingleEventLayout';
+@import './button';
+@import './Profile.scss';
+@import './emailForm';
+@import './paidRequest';
+@import './EventFullDetails';
+@import './loader';
+@import './EventToCalendar';
+@import './LocationMap';
+@import './DateIcon';
+@import './Stripe';
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+::-webkit-scrollbar {
+  width: 0.25vw;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 1px $on-dark;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $on-dark;
+}
+
+@media only screen and (max-width: $break-large) {
+  .app {
+    .main-container {
+      background-image: none;
+      margin-top: 0px;
+      &__background {
+        display: none;
+      }
+
+      .routes-container {
+        max-width: $break-large;
+        border-radius: 0;
+
+        & > *:not(.loader-container):not(.divider) {
+          margin: 0 30px 5px;
+          &:first-child {
+            padding-top: 20px;
+          }
+          &:last-child {
+            padding-bottom: 60px;
+          }
+        }
+        .list-container {
+          grid-template-columns: repeat(auto-fill, minmax(auto, max-content));
+        }
+        .heading {
+          .event_panel_heading {
+            li {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+    .menu-header {
+      a {
+      }
+      #sidebar-menu {
+        ul {
+          li {
+            a {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: $break-small) {
+  .app {
+    .main-container {
+      .routes-container {
+        max-width: $break-small;
+        margin: 60px auto 0;
+        .heading {
+          display: flex;
+          flex-direction: column;
+          .event_panel_heading {
+            li {
+              font-size: 0.5rem;
+            }
+          }
+          .search-bar {
+            margin-left: 0px;
+            width: max-content;
+          }
+        }
+        .profile-layout {
+          padding-bottom: 40px;
+          &__info {
+            form {
+              ul {
+                li {
+                  grid-template-columns: 0fr 4fr;
+                  .profile-form__details {
+                    display: none;
+                  }
+                  span {
+                    margin-right: 30px;
+                  }
+                  .fas {
+                    display: block;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .menu-header {
+      grid-template-columns: 30px max-content 30px;
+      justify-content: space-between;
+      a {
+        grid-column: 2/3;
+        text-align: center;
+        margin-top: 10px;
+      }
+      #sidebar-menu {
+        ul {
+          li {
+            padding: 15px;
+            a {
+              font-size: 0.7rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: $break-x-small) {
+  .app {
+    .main-container {
+      .routes-container {
+        max-width: $break-x-small;
+        
+        & > *:not(.loader-container):not(.divider) {
+          margin: 0 10px 5px;
+          &:first-child {
+            padding-top: 10px;
+          }
+          &:last-child {
+            padding-bottom: 20px;
+          }
+        }
+
+      }
+    }
+  }
+}

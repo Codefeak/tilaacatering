@@ -1,0 +1,54 @@
+.profile-layout {
+  display: flex;
+  flex-direction: row;
+  &__info {
+    width: 100%;
+    .profile-form {
+      & * {
+        font-size: 16px;
+      }
+      &__details {
+        font-weight: 600;
+      }
+      &__email {
+        text-transform: lowercase;
+      }
+      &__web {
+        text-transform: lowercase;
+      }
+    }
+    ul {
+      // list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      // align-content: center;
+      li {
+        text-decoration: none;
+        margin: 12px 0;
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        align-items: center;
+        * {
+          text-transform: capitalize;
+          color: $secondary-darker;
+        }
+        
+        .without-border {
+          border: none;
+          background-color: transparent;
+        }
+        .fas {
+          display: none;
+        }
+      }
+      .btn-container {
+        display: flex;
+        width: 100%;
+        margin-top: 30px;
+        button{
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

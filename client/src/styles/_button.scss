@@ -1,0 +1,111 @@
+@mixin color($color, $contrast-color) {
+  background-color: $color;
+  border-color: $color;
+  color: $color;
+  &:hover {
+    background-color: $contrast-color;
+    border-color: $contrast-color;
+    color: $contrast-color;
+  }
+  &:focus {
+    background-color: $color;
+    border-color: $color;
+    color: $color;
+  }
+}
+
+.Button {
+  color: $primary;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 3px;
+  border-width: 0px;
+  border-style: solid;
+  border-color: transparent;
+  // outline: none;
+
+  & i {
+    vertical-align: middle;
+  }
+
+  & .right {
+    margin-left: 10px;
+  }
+  & .left {
+    margin-right: 10px;
+  }
+
+  /* Size */
+  &--sm {
+    min-width: 2rem;
+    font-size: 15px;
+    padding: 2px;
+  }
+  &--md {
+    min-width: 4rem;
+  }
+  &--lg {
+    min-width: 6rem;
+  }
+
+  /* Variant */
+  &--contained {
+    color: $surface !important;
+  }
+  &--outlined {
+    border-width: 1px;
+    background-color: transparent !important;
+  }
+  &--text {
+    background-color: transparent !important;
+  }
+
+  /* Colors */
+  &--primary {
+    @include color($primary, $primary-light);
+  }
+  /* Variant */
+  &--contained {
+    color: $surface !important;
+  }
+  &--outlined {
+    border-width: 1px;
+    background-color: transparent !important;
+  }
+  &--text {
+    background-color: transparent !important;
+  }
+
+  &--secondary {
+    @include color($secondary, $secondary-light);
+  }
+
+  &--secondary-dark {
+    @include color($secondary-dark, $secondary-light);
+  }
+
+  &--active {
+    @include color($active, $active-light);
+  }
+
+  &--danger {
+    @include color($error, $error-light);
+  }
+
+  &--on-light {
+    @include color($on-light, $on-light--hover);
+  }
+
+  &--on-dark {
+    @include color($on-dark, $on-light--hover);
+  }
+}
+/* Disabled */
+.Button[disabled] {
+  background-color: $disabled-light;
+  border-color: $disabled-light;
+  color: $disabled !important;
+  cursor: auto;
+}

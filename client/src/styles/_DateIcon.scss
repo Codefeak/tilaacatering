@@ -1,0 +1,69 @@
+.dateIcon {
+  display: grid;
+  grid-template-rows: 0fr 0fr;
+  text-align: center;
+  height: fit-content;
+  & > * {
+    border-style: solid;
+    vertical-align: middle;
+  }
+
+  /* size */
+  &--sm {
+    font-size: 5px;
+    min-width: 47px;
+    max-width: 47px;
+  }
+  &--md {
+    font-size: 13px;
+    width: 130px;
+  }
+  &--lg {
+    font-size: 20px;
+    width: 200px;
+  }
+
+  /* color */
+  @mixin dateIcon-color($main-color, $contrast-color) {
+    & > * {
+      border-color: $main-color;
+    }
+
+    & .dateIcon__month {
+      color: $contrast-color;
+      background-color: $main-color;
+    }
+
+    & .dateIcon__day {
+      color: $main-color;
+      background-color: $contrast-color;
+    }
+  }
+
+  &--color-default {
+    @include dateIcon-color($teritary, $primary);
+  }
+
+  &--color-primary {
+    @include dateIcon-color($primary, $surface);
+  }
+}
+
+.dateIcon__month {
+  font-weight: lighter;
+  font-size: 3em;
+  border-width: 1px 1px 0 1px;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  line-height: 1.35em;
+}
+
+.dateIcon__day {
+  font-weight: 700;
+  font-size: 4em;
+  line-height: 1.5em;
+  letter-spacing: -0.05em;
+  border-width: 0 1px 1px 1px;
+  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}

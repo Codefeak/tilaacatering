@@ -1,0 +1,150 @@
+.sgl-event-lay {
+  // font-family: 'Open Sans', sans-serif;
+  // margin: auto;
+  // display: grid;
+
+
+  display: contents;
+
+  &__top {
+    text-transform: capitalize;
+    display: grid;
+    grid-gap: 20px;
+    grid-template: 
+      'back back' min-content
+      'calendar details' 1fr
+      / 0fr 1fr;
+
+    &__back-button {
+      grid-area: back;
+    }
+
+    &__calendar {
+      grid-area: calendar;
+      align-self: center;
+    }
+    
+    &__details {
+      grid-area: details;
+      display: grid;
+      grid-template:
+        'title title posted' min-content
+        'date-time message message' max-content
+        'guests message message' min-content
+        / min-content auto auto;
+      grid-gap: 30px 40px;
+    }
+  }
+
+  &__title {
+    grid-area: title;
+  }
+
+  &__posted {
+    grid-area: posted;
+    text-align: right;
+    & span {
+      padding: 0 3px;
+      color: $disabled;
+    }
+    & .last-posted {
+      font-size: smaller;
+    }
+  }
+
+  &__date-time {
+    grid-area: date-time;
+  }
+
+  &__guests {
+    grid-area: guests;
+  }
+
+  &__item {
+    color: $on-light;
+    font-weight: bold;
+    width: max-content;
+    padding-bottom: 10px;
+    display: block;
+  }
+  &__value {
+    
+  }
+  &__message {
+    grid-area: message;
+    height: min-content;
+    & .sgl-event-lay__value {
+      text-transform: none;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 10px;
+      background: white;
+    }
+  }
+}
+
+@media only screen and (max-width: $break-small) {
+  .sgl-event-lay {
+  
+    &__top {
+      grid-template:
+        'back calendar .' min-content
+        'details details details' 1fr
+        / 1fr 0fr 1fr;
+
+      &__back-button {
+        grid-column: auto;
+      }
+  
+      &__details {
+        grid-template:
+          'calendar title title title title title' min-content
+          // 'calendar posted posted posted' min-content
+          'date-time date-time date-time guests guests guests' max-content
+          'message message message message message message' min-content
+          / 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-gap: 20px 10px;
+      }
+    }
+  
+    &__title {
+      // & > * {
+      //   display: inline-block;
+      // }
+    }
+  
+    &__posted {
+      text-align: left;
+    }
+  
+  //   &__date-time {
+  //     grid-area: date-time;
+  //   }
+  
+  //   &__guests {
+  //     grid-area: guests;
+  //   }
+  
+  //   &__item {
+  //     color: $on-light;
+  //     font-weight: bold;
+  //     width: max-content;
+  //     padding-bottom: 10px;
+  //     display: block;
+  //   }
+  //   &__value {
+      
+  //   }
+  //   &__message {
+  //     grid-area: message;
+  //     height: min-content;
+  //     & .sgl-event-lay__value {
+  //       text-transform: none;
+  //       border: 1px solid black;
+  //       border-radius: 5px;
+  //       padding: 10px;
+  //       background: white;
+  //     }
+  //   }
+  }
+}

@@ -1,0 +1,20 @@
+.stripe-form {
+    input,
+    .StripeElement {
+      display: block;
+      margin: 20px 0 20px 0;
+      max-width: 500px;
+      padding: 10px 14px;
+      font-family: 'Source Code Pro', monospace;
+      box-shadow: 0px 0px 10px 0px $primary-dark;
+      border: 0;
+      outline: 0;
+      border-radius: 4px;
+      background: white;
+    }
+  &-btns {
+    button {
+      margin: 0px 10px;
+    }
+  }
+}

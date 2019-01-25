@@ -1,0 +1,61 @@
+.paid-request_section {
+  text-align: center;
+  background: $primary;
+
+  .paid_request_heading {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    list-style: none;
+    background-color: $secondary-dark;
+    text-align: center;
+    color: $primary;
+    li {
+      margin: 6px 0 6px 0;
+      font-weight: 600;
+    }
+  }
+  a:nth-child(odd) {
+    .paid-request-events {
+      background-color: $secondary;
+      p {
+        color: $primary;
+      }
+    }
+  }
+  a {
+    text-decoration: none;
+    color: $on-light;
+    .paid-request-events {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 12px;
+      p {
+        text-transform: capitalize;
+      }
+    }
+    .paid-request-events:hover {
+      background-color: $on-hover;
+    }
+  }
+}
+
+.page-numbers {
+  text-align: right;
+  margin: 10px;
+  ul {
+    display: inline-table;
+    margin-right: 10px;
+    li {
+      display: inline;
+      cursor: pointer;
+      margin: 10px;
+    }
+    li:active {
+      background-color: $secondary;
+      color: $primary;
+    }
+    li:hover {
+      background-color: $on-hover;
+    }
+  }
+}

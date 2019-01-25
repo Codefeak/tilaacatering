@@ -1,0 +1,134 @@
+@mixin layout {
+  min-height: 100%;
+  display: grid;
+  align-items: center;
+  background-image: url('https://tilaacatering.fi/wp-content/uploads/2018/10/catering-pitopalvelu-compressor.jpg');
+  background-size: cover;
+}
+@mixin container {
+  width: 300px;
+  margin: 0 auto 0;
+  padding: 20px;
+  background-color: $primary;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px 0px;
+  text-align: center;
+  justify-content: space-around;
+}
+.login-layout {
+  @include layout;
+  &­­__container {
+    @include container;
+    .login-form_section {
+      display: flex;
+      flex-direction: column;
+      margin: 0px 10px 10px;
+      border-radius: 5px;
+      .login-form_section_input {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        input {
+          border: none;
+          background-color: transparent;
+          border-bottom: 1px solid $teritary;
+          height: 40px;
+          padding: 5px;
+          font-size: medium;
+          margin: 10px;
+        }
+      }
+      .login-form_section_checkbox {
+        text-align: left;
+        margin: 10px 10px 0;
+        display: flex;
+        align-items: center;
+        span {
+          margin: 10px;
+          color: $secondary;
+          font-size: small;
+        }
+        forgot-password {
+          margin: 10px;
+        }
+      }
+    }
+  }
+  .login-form_section_button {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    justify-content: space-between;
+    button {
+      margin: 10px;
+    }
+  }
+  p {
+    margin: 20px 10px 10px;
+  }
+  &__signup {
+    width: fit-content;
+    margin: 60px auto 0;
+    padding: 10px;
+    background-color: $primary;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px;
+    text-align: center;
+    justify-content: space-around;
+  }
+
+  .sign-up-request {
+    width: 400px;
+    margin: 0 auto;
+    button {
+      margin-right: 10px;
+    }
+    &__form--card {
+      grid-area: 'card';
+    }
+    &__form {
+      grid-column-gap: 2vw;
+      padding: 20px;
+      &--input {
+        margin: 20px auto 0;
+        border: none;
+        width: 95%;
+        background-color: transparent;
+        border-bottom: 1px solid $teritary;
+        height: 30px;
+      }
+      &--information {
+        p {
+          color: $secondary;
+        }
+      }
+    }
+  }
+}
+.sign-up {
+  @include layout;
+  &__success {
+    @include container;
+    width: 500px;
+    &__heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $secondary;
+      margin: 10px;
+      
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .sign-up-request__form {
+    grid-template-columns: minmax(150px, 350px);
+    padding: 20px;
+  }
+  .sign-up-request__form--input {
+    width: 100%;
+  }
+  .sign-up-request__form--button {
+    margin: 0 75px;
+  }
+}
