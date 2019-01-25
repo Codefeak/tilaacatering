@@ -18,8 +18,11 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false, }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "client/build")));
-// app.use(express.static(path.join(__dirname, "public")));
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "client/build")));
+} else {
+	app.use(express.static(path.join(__dirname, "public")));
+}
 app.use(require("body-parser").text());
 
 app.use("/api/users", usersRouter);
