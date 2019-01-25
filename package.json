@@ -4,10 +4,11 @@
   "main": "index.js",
   "engines": {
     "node": "11.6.0"
+    
   },
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd client && yarn && yarn run build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "Rojak",
   "license": "ISC",
