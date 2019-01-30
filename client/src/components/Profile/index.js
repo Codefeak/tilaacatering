@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
+import validate from '../../utls/validate';
 import type { StoreState } from '../../utls/flowTypes';
 import Button from '../Button';
-import { getProfileState } from '../../store/reducers';
+import { getProfileState, getProfileErr } from '../../store/reducers';
 import * as actions from '../../store/actions';
 
 type Fn = () => mixed;
-type Props = {
+type Props = reduxForm & {
   profile: { name: string, email: string, company: string },
   user: { id: string },
   fetchProfile: string => mixed,
@@ -21,12 +22,18 @@ type State = {
 };
 
 function renderField({
-  input, label, type, className, readOnly,
+  input, label, type, className, readOnly, meta: { error, touched },
 }) {
   return (
     <>
       <span className="profile-form__details">{label} :</span>
-      <input type={type} placeholder="(no data)" className={className} readOnly={readOnly} {...input} />
+      <input
+        type={type}
+        placeholder="(no data)"
+        className={className}
+        readOnly={readOnly}
+        {...input}/>
+      {touched && (error && <span className="profile-form__error">{error}</span>)}
     </>
   );
 }
@@ -71,19 +78,22 @@ class Profile extends Component<Props, State> {
     const { isEditing } = this.state;
     const { editProfile, user } = this.props;
     // eslint-disable-next-line no-unused-expressions
-    isEditing === false
+    !isEditing
       ? this.setState(prevState => ({ isEditing: !prevState.isEditing }))
       : editProfile(user.id, values)
         && this.setState(prevState => ({ isEditing: !prevState.isEditing }));
   };
 
   render() {
-    const { handleSubmit, reset } = this.props;
+    const {
+      handleSubmit, reset, invalid, profileError,
+    } = this.props;
     const { isEditing } = this.state;
 
     return (
       <div className="profile-layout">
         <div className="profile-layout__info">
+          {console.error(profileError)}
           <form onSubmit={handleSubmit(this.handleClick)} className="profile-form">
             <ul>
               {this.fields.map(field => (
@@ -92,6 +102,7 @@ class Profile extends Component<Props, State> {
                   <Field
                     component={renderField}
                     name={field.name}
+                    type="text"
                     label={field.name}
                     readOnly={!isEditing}
                     className={`${!isEditing ? 'without-border' : ''} ${field.className}`}/>
@@ -103,7 +114,7 @@ class Profile extends Component<Props, State> {
                   variant="contained"
                   color="on-light"
                   size="md"
-                  label={isEditing ? 'Save Details' : 'Edit Details'}/>
+                  label={isEditing && !invalid ? 'Save Details' : 'Edit Details'}/>
                 {isEditing === true && (
                   <Button
                     type="button"
@@ -131,6 +142,7 @@ const mapStateToProps = (state: StoreState) => {
   } = getProfileState(state);
   return {
     profile: getProfileState(state),
+    profileError: getProfileErr(state),
     initialValues: {
       name,
       email,
@@ -147,6 +159,7 @@ export default connect(
 )(
   reduxForm({
     form: 'profile',
+    validate,
     destroyOnUnmount: true,
     enableReinitialize: true,
   })(Profile),

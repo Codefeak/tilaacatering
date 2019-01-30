@@ -76,6 +76,12 @@ html {
     }
   }
 }
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
 @import './loginLayout';
 @import './Event';
 @import './menu.scss';
@@ -227,7 +233,7 @@ html {
     .main-container {
       .routes-container {
         max-width: $break-x-small;
-        
+
         & > *:not(.loader-container):not(.divider) {
           margin: 0 10px 5px;
           &:first-child {
@@ -237,7 +243,6 @@ html {
             padding-bottom: 20px;
           }
         }
-
       }
     }
   }

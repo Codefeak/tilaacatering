@@ -11,6 +11,7 @@ import SignUpLayout from '../../components/SignUp/SignUpLayout';
 import SignUpSuccess from '../../components/SignUp/SignUpSuccess';
 import {
   getAuthentication,
+  getAuthenticationErrors,
   getSignUpMessage,
   getSignUpErrors,
   getSignedUpData,
@@ -24,6 +25,7 @@ type Props = {
   signUpMsg: number,
   signUpErr: string,
   userData: {},
+  loginErr: { errors: {} },
 };
 type State = {
   signUp: boolean,
@@ -54,7 +56,12 @@ class Login extends React.Component<Props, State> {
 
   render() {
     const {
-      authentication, registration, signUpMsg, signUpErr, signedUpData,
+      authentication,
+      registration,
+      signUpMsg,
+      signUpErr,
+      signedUpData,
+      loginErr,
     } = this.props;
     const { view } = this.state;
     // Swtich for rendering different views. "login" || "signUp" || "signUpSuccess"
@@ -69,18 +76,21 @@ class Login extends React.Component<Props, State> {
               toggleFalse={this.toggleFalse2}
               viewChangeTo={this.viewChangeTo}/>
             {!!signUpMsg && this.viewChangeTo('signUpSuccess')}
-            {!!signUpErr && <span>{signUpErr.statusText}</span>}
           </SignUpLayout>
         );
 
       case 'signUpSuccess':
-        return <SignUpSuccess viewChangeTo={this.viewChangeTo} currentUser={signedUpData}/>;
+        return <SignUpSuccess viewChangeTo={this.viewChangeTo} currentUser={signedUpData} />;
 
       case 'login':
       default:
         return (
           <LoginLayout>
-            <LoginForm {...this.state} onSubmit={authentication} viewChangeTo={this.viewChangeTo} />
+            <LoginForm
+              {...this.state}
+              onSubmit={authentication}
+              viewChangeTo={this.viewChangeTo}
+              errors={loginErr && loginErr.errors}/>
           </LoginLayout>
         );
     }
@@ -89,6 +99,7 @@ class Login extends React.Component<Props, State> {
 
 const mapStateToProps = (state: StoreState) => ({
   user: getAuthentication(state),
+  loginErr: getAuthenticationErrors(state),
   signUpMsg: getSignUpMessage(state),
   signUpErr: getSignUpErrors(state),
   signedUpData: getSignedUpData(state),

@@ -22,7 +22,7 @@ export const authentication = values => (dispatch) => {
   return axios
     .post('/api/users/login', values)
     .then(res => dispatch(authenticationSuccess(res.data)))
-    .catch(err => dispatch({ type: AUTHENTICATION_FAILS, payload: err.res }));
+    .catch(err => dispatch({ type: AUTHENTICATION_FAILS, payload: err.response.data }));
 };
 
 export const registration = values => dispatch => axios
@@ -36,7 +36,7 @@ export const registration = values => dispatch => axios
   }))
   .catch(err => dispatch({
     type: SIGNUP_FAILS,
-    payload: err.response,
+    payload: err.response.data,
   }));
 
 export const logOut = () => async (dispatch) => {

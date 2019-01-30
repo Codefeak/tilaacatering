@@ -53,3 +53,8 @@ $break-x-small: 420px;
   }
 
 }
+@mixin errors{
+    color:$error;
+    font-size: 0.8rem;
+    text-align: left;
+}

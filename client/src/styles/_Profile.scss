@@ -16,6 +16,10 @@
       &__web {
         text-transform: lowercase;
       }
+      &__error{
+        @include errors;
+        grid-column: 2;
+      }
     }
     ul {
       // list-style-type: none;

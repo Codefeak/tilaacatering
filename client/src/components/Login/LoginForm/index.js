@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
+import validate from '../../../utls/validate';
 import type { StoreState } from '../../../utls/flowTypes';
 import { getInputType } from '../../../store/reducers';
 import * as actions from '../../../store/actions';
@@ -10,17 +11,29 @@ import Button from '../../Button';
 
 type HandleEvent = () => mixed;
 
-type Props = {
+type Props = reduxForm & {
   inputType: string,
   handleSubmit: HandleEvent,
   viewChangeTo: HandleEvent,
   handleCheck: string => mixed,
   viewChangeTo: string => mixed,
 };
+const renderField = ({
+  label, type, input, meta: { error, touched }, emailErr, pwdErr,
+}) => (
+  <div>
+    <div>
+      <input {...input} placeholder={label} type={type} />
+      {touched && (error && <p className="login-form_section--error">{error}</p>)}
+      {touched && (emailErr && <p className="login-form_section--error">{emailErr.email}</p>)}
+      {touched && (pwdErr && <p className="login-form_section--error">{pwdErr.password}</p>)}
+    </div>
+  </div>
+);
 
 const LoginForm = (props: Props) => {
   const {
-    inputType, handleSubmit, handleCheck, viewChangeTo,
+    inputType, handleSubmit, handleCheck, viewChangeTo, errors,
   } = props;
   return (
     <form onSubmit={handleSubmit}>
@@ -28,30 +41,42 @@ const LoginForm = (props: Props) => {
         <div className="login-form_section">
           <div className="login-form_section_input">
             <Field
-              component="input"
+              component={renderField}
               name="email"
-              type="email"
-              placeholder="Enter Username or E-mail"/>
+              type="text"
+              emailErr={errors}
+              placeholder="Enter Your E-mail"/>
           </div>
           <div className="login-form_section_input">
-            <Field component="input" name="password" type={inputType} placeholder="Password" />
+            <Field
+              component={renderField}
+              name="password"
+              type={inputType}
+              pwdErr={errors}
+              placeholder="Password"/>
           </div>
           <div className="login-form_section_checkbox">
             <Field
               name="checkbox"
-              component="input"
+              component={renderField}
               type="checkbox"
               onChange={() => handleCheck(inputType)}/>
             <span>Show Password</span>
           </div>
         </div>
         <div className="login-form_section_button">
-          <Button label="Login" type="submit" size="lg" variant="contained" color="on-light"/>
-          <Button label="SignUp" type="button" size="lg" variant="outlined" color="on-dark" onClick={() => viewChangeTo('signUp')}/>
+          <Button label="Login" type="submit" size="lg" variant="contained" color="on-light" />
+          <Button
+            label="SignUp"
+            type="button"
+            size="lg"
+            variant="outlined"
+            color="on-dark"
+            onClick={() => viewChangeTo('signUp')}/>
         </div>
-        <p className="forgot-password">
+        {/* <p className="forgot-password">
           <a href="/forgotPassword">Forgot your password ?</a>
-        </p>
+        </p> */}
       </div>
     </form>
   );
@@ -63,4 +88,4 @@ const mapStateToProps = (state: StoreState) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(reduxForm({ form: 'login' })(LoginForm));
+)(reduxForm({ form: 'login', validate })(LoginForm));

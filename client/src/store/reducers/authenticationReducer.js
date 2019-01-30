@@ -61,7 +61,6 @@ export default function (state: State = initialState, action: Action) {
         ...state,
         loading: false,
         signUpErrors: action.payload,
-        signUpMessage: '',
       };
     case CHECK_USER:
       return {

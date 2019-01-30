@@ -38,13 +38,6 @@ const posted = publishedOn => (
   </div>
 )
 
-const calenderItem = (size, eventDate, singleEvent) => (
-  <React.Fragment>
-    <DateIcon date={eventDate} size={size} color="default" />
-    <EventToCalendar singleEvent={singleEvent} />
-  </React.Fragment>
-)
-
 class SingleEventLayout extends Component<Props> {
   componentDidMount() {
     const { fetchSingleEvent, location } = this.props;

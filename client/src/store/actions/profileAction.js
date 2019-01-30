@@ -36,7 +36,7 @@ export const editProfile = (id, values) => async (dispatch) => {
   await axios
     .put(`/api/profile/${id}`, values)
     .then(res => dispatch(fetchProfileSuccess(res.data)))
-    .catch(err => dispatch(fetchProfileFails(err.res)));
+    .catch(err => dispatch(fetchProfileFails(err.response.data)));
 };
 
 export const fetchPurchasedListSuccess = values => ({
