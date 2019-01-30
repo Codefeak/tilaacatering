@@ -68,8 +68,10 @@ router.put(
 			.withMessage("Company name must be between 2 and 20 characters"),
 		check("phone")
 			.optional({ nullable: true, })
-			.matches("^[0-9]{10}")
-			.withMessage("phone number must be of 10 digits"),
+			.matches(
+				"(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))s*[)]?[-s.]?[(]?[0-9]{1,3}[)]?([-s.]?[0-9]{3})([-s.]?[0-9]{3,4})"
+			)
+			.withMessage("*Enter Phone Number with Country Code"),
 	],
 	(req, res) => {
 		const errors = validationResult(req).formatWith(({ msg, param, }) => ({
@@ -84,20 +86,18 @@ router.put(
 			.then(user => {
 				if (user) {
 					const { _id, name, email, company, phone, } = user;
-					res
-						.status(200)
-						.json({
-							_id,
-							name,
-							email,
-							company,
-							phone,
-							msg: "Profile info was successfully updated",
-						});
+					res.status(200).json({
+						_id,
+						name,
+						email,
+						company,
+						phone,
+						msg: "Profile info was successfully updated",
+					});
 				} else {
 					res
 						.status(404)
-						.json({ errors: [{ updateUser: "User doesnot exist", },], });
+						.json({ errors: { updateUser: "User doesnot exist", }, });
 				}
 			})
 			.catch(e => res.send(e));
@@ -105,8 +105,8 @@ router.put(
 );
 
 router.delete("/delete", (req, res) => {
-	User.deleteMany({}, err=>res.send(err));
-	User.find(items=> console.log(items));
+	User.deleteMany({}, err => res.send(err));
+	User.find(items => console.log(items));
 });
 
 module.exports = router;

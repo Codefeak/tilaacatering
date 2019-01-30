@@ -15,7 +15,7 @@ router.post(
 			.exists({ checkFalsy: true, })
 			.withMessage("Full name is required")
 			.isLength({ min: 2, max: 20, })
-			.withMessage("Full name must be between 2 and 20 characters")
+			.withMessage("Full name must be between 2 and 30 characters")
 			.not()
 			.matches("[0-9]")
 			.withMessage("Full name cannot contain number"),
@@ -25,7 +25,7 @@ router.post(
 			.withMessage("Email is required")
 			.isEmail()
 			.withMessage("Email is invalid"),
-		check("password")
+		check("newPassword")
 			.exists({ checkFalsy: true, })
 			.withMessage("Password is required")
 			.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
@@ -40,8 +40,11 @@ router.post(
 		check("phone")
 			.exists({ checkFalsy: true, })
 			.withMessage("Phone number is required")
-			.matches("^[0-9]{10}")
-			.withMessage("phone number must be of 10 digits"),
+			.matches(
+				"(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))s*[)]?[-s.]?[(]?[0-9]{1,3}[)]?([-s.]?[0-9]{3})([-s.]?[0-9]{3,4})"
+			)
+
+			.withMessage("Enter with countryCode"),
 	],
 	(req, res) => {
 		const errors = validationResult(req).formatWith(({ msg, param, }) => ({
@@ -54,13 +57,13 @@ router.post(
 			if (user) {
 				return res
 					.status(400)
-					.json({ errors: [{ email: "email already exists", },], });
+					.json({ errors: { email: "*email already exists", }, });
 			} else {
 				const newUser = new User({
 					name: req.body.name,
 					email: req.body.email,
 					company: req.body.company,
-					password: req.body.password,
+					password: req.body.newPassword,
 					phone: req.body.phone,
 					stripeCusID: req.body.stripeCusID,
 				});
@@ -110,7 +113,7 @@ router.post(
 			if (!user) {
 				return res
 					.status(404)
-					.json({ errors: [{ email: "This user does not exist yet", },], });
+					.json({ errors: { email: "*This user does not exist yet", }, });
 			}
 			//Check the password
 			bcrypt.compare(password, user.password).then(isMatched => {
@@ -129,7 +132,9 @@ router.post(
 						stripeCusID: user.stripeCusID,
 					});
 				} else {
-					return res.status(400).json({ password: "Password incorrect", });
+					return res
+						.status(400)
+						.json({ errors: { password: "*Password incorrect", }, });
 				}
 			});
 		});
