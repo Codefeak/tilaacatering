@@ -7,7 +7,12 @@ import type { StoreState } from '../../../utls/flowTypes';
 import Event from '../EventListComponent';
 import Button from '../../Button';
 import * as actions from '../../../store/actions';
-import { getEvent, getSearchedEvents, getPurchasedEvent } from '../../../store/reducers';
+import {
+  getEvent,
+  getSearchedEvents,
+  getPurchasedEvent,
+  getCheckUser,
+} from '../../../store/reducers';
 
 type fields = {
   contactAddress: string,
@@ -18,6 +23,7 @@ type fields = {
   eventFreeMessage: string,
   eventGuests: number,
   eventPurchases: number,
+  eventPurchasers: {},
   eventRegion: string,
   eventSubmissionDate: string,
   eventType: string,
@@ -27,7 +33,7 @@ type fields = {
 type Fn = (e: SyntheticEvent<HTMLButtonElement>) => mixed;
 
 type Props = {
-  user: { id: string },
+  user: { id: string, role: string },
   searchedEvents: Array<fields>,
   events: Array<fields>,
   fetchEvent: () => mixed,
@@ -162,10 +168,27 @@ class EventList extends React.Component<Props, State> {
     }
   };
 
+  determinePurchaseLevel = (event) => {
+    switch (event.eventPurchases) {
+      case 1:
+        return 'green';
+      case 2:
+        return 'yellowgreen';
+      case 3:
+        return 'yellow';
+      case 4:
+        return 'orange';
+      case 5:
+        return 'red';
+      default:
+        return '';
+    }
+  };
+
   render() {
     let { events } = this.props;
     const {
-      convertDate, search, searchedEvents, purchasedEvents,
+      convertDate, search, searchedEvents, purchasedEvents, user,
     } = this.props;
     const { searching, sorting } = this.state;
     if (searching !== '') {
@@ -213,23 +236,43 @@ class EventList extends React.Component<Props, State> {
           </div>
         </div>
         <div className="list-container">
-          {events.map(event => (
-            <div className="event-list" key={event._id}>
-              <Link
-                to={{
-                  pathname: '/singleEventLayout',
-                  state: { id: `${event._id}`, back: '/' },
-                }}
-                className="anchor-btn">
-                <Event
-                  event={event}
-                  convertDate={convertDate}
-                  purchased={
-                    purchasedEvents.map(tmp => tmp._id).includes(event._id) ? 'purchased' : ''
-                  }/>
-              </Link>
-            </div>
-          ))}
+          {events.map(event => (user.role === 'admin' ? (
+              <div className="event-list" key={event._id}>
+                <Link
+                  to={{
+                    pathname: '/singleEventLayout',
+                    state: { id: `${event._id}`, back: '/' },
+                  }}
+                  className="anchor-btn">
+                  <Event
+                    event={event}
+                    convertDate={convertDate}
+                    purchaseLevel={this.determinePurchaseLevel(event)}
+                    purchased={
+                      purchasedEvents.map(tmp => tmp._id).includes(event._id) ? 'purchased' : ''
+                    }/>
+                </Link>
+              </div>
+          ) : (
+            event.eventPurchases < 6 && (
+                <div className="event-list" key={event._id}>
+                  <Link
+                    to={{
+                      pathname: '/singleEventLayout',
+                      state: { id: `${event._id}`, back: '/' },
+                    }}
+                    className="anchor-btn">
+                    <Event
+                      event={event}
+                      convertDate={convertDate}
+                      purchaseLevel={this.determinePurchaseLevel(event)}
+                      purchased={
+                        purchasedEvents.map(tmp => tmp._id).includes(event._id) ? 'purchased' : ''
+                      }/>
+                  </Link>
+                </div>
+            )
+          )))}
         </div>
       </React.Fragment>
     );
@@ -237,6 +280,7 @@ class EventList extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: StoreState) => ({
+  user: getCheckUser(state),
   events: getEvent(state),
   searchedEvents: getSearchedEvents(state),
   purchasedEvents: getPurchasedEvent(state),

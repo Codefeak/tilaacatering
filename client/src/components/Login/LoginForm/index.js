@@ -19,11 +19,11 @@ type Props = reduxForm & {
   viewChangeTo: string => mixed,
 };
 const renderField = ({
-  label, type, input, meta: { error, touched }, emailErr, pwdErr,
+  placeholder, type, input, meta: { error, touched }, emailErr, pwdErr,
 }) => (
   <div>
     <div>
-      <input {...input} placeholder={label} type={type} />
+      <input autoComplete="off" {...input} placeholder={placeholder} type={type} />
       {touched && (error && <p className="login-form_section--error">{error}</p>)}
       {touched && (emailErr && <p className="login-form_section--error">{emailErr.email}</p>)}
       {touched && (pwdErr && <p className="login-form_section--error">{pwdErr.password}</p>)}
@@ -88,4 +88,11 @@ const mapStateToProps = (state: StoreState) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(reduxForm({ form: 'login', validate })(LoginForm));
+)(
+  reduxForm({
+    form: 'login',
+    validate,
+    destroyOnUnmount: true,
+    enableReinitialize: true,
+  })(LoginForm),
+);

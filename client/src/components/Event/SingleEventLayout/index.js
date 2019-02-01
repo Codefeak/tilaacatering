@@ -69,7 +69,7 @@ class SingleEventLayout extends Component<Props> {
       const time = `${dateObj.format('h:mm A')} – ${dateEndObj.format('h:mm A')}`;
 
       const renderField = [
-        { field: 'Date and time', className: 'sgl-event-lay__date-time', content: [date, time] },
+        { field: 'Date and Time', className: 'sgl-event-lay__date-time', content: [date, time] },
         { field: 'Number of Guests', className: 'sgl-event-lay__guests', content: [eventGuests] },
       ];
       const today = Date.now();

@@ -9,15 +9,10 @@ import {
   LOG_OUT,
   CHECK_USER,
 } from '../actions/types';
+import type { Authentication } from '../../utls/flowTypes';
 
-type Action = { type: string, payload: {} };
-type State = {
-  loading: boolean,
-  authErrors: null | Array<{}>,
-  signUpErrors: null | Array<{}>,
-  user: null | {},
-  userData: null | {},
-};
+type Action = { type: string, payload: { data: {}, message: {} } };
+
 const initialState = {
   loading: false,
   authErrors: null,
@@ -27,7 +22,7 @@ const initialState = {
   userData: null,
 };
 
-export default function (state: State = initialState, action: Action) {
+export default function (state: Authentication = initialState, action: Action) {
   switch (action.type) {
     case START_FETCHING:
       return {
@@ -48,14 +43,16 @@ export default function (state: State = initialState, action: Action) {
         loading: false,
         authErrors: action.payload,
       };
-    case SIGNUP_SUCCESS:
+    case SIGNUP_SUCCESS: {
+      const { data, message } = action.payload;
       return {
         ...state,
         loading: false,
         signUpErrors: null,
-        signUpMessage: action.payload.message,
-        userData: action.payload.data,
+        signUpMessage: message,
+        userData: data,
       };
+    }
     case SIGNUP_FAILS:
       return {
         ...state,

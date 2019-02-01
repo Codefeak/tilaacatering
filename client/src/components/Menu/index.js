@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import type { StoreState } from '../../utls/flowTypes';
 import * as actions from '../../store/actions';
-import { getLogInState } from '../../store/reducers';
+import { getCheckUser } from '../../store/reducers';
 import Button from '../Button';
 import Burger from './Burger';
 import DeviceView from '../DeviceView';
@@ -14,6 +14,7 @@ import DeviceView from '../DeviceView';
 type Props = {
   logout: () => mixed,
   children: React.Node,
+  User: null | {},
 };
 
 type State = {
@@ -23,22 +24,21 @@ type State = {
 type M = Array<{ field: string, path: string, className: string }>;
 
 class Menu extends React.Component<Props, State> {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       menuOpen: false,
     };
-    this.toggleMenuOpen = this.toggleMenuOpen.bind(this);
   }
 
-  toggleMenuOpen() {
+  toggleMenuOpen = () => {
     this.setState(state => ({
       menuOpen: !state.menuOpen,
     }));
-  }
+  };
 
   render() {
-    const { logout, children } = this.props;
+    const { logout, children, User } = this.props;
     const { menuOpen } = this.state;
     const MenuList: M = [
       {
@@ -74,9 +74,11 @@ class Menu extends React.Component<Props, State> {
             </ul>
           </div>
           <div className="logout-panel">
-            <Link to="/" onClick={() => logout()}>
-              <Button label="Logout" variant="outlined" color="on-dark" />
-            </Link>
+            {User !== null && (
+              <Link to="/" onClick={() => logout()}>
+                <Button label="Logout" variant="outlined" color="on-dark" />
+              </Link>
+            )}
           </div>
           <DeviceView device="mobile">
             {!menuOpen && <span className="fas fa-bars" onClick={this.toggleMenuOpen} />}
@@ -91,7 +93,7 @@ class Menu extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: StoreState) => ({
-  isLogIn: getLogInState(state),
+  User: getCheckUser(state),
 });
 
 export default connect(

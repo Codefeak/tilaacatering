@@ -26,7 +26,6 @@ export const getSignUpMessage: Fn = state => state.authentication.signUpMessage;
 export const getSignUpErrors: Fn = state => state.authentication.signUpErrors;
 
 export const getCheckUser: Fn = state => state.authentication.user;
-export const getLogOut: Fn = state => state.authentication.logOut;
 
 export const getEvent: Fn = state => state.event.events;
 export const getEventFetchErrors: Fn = state => state.event.eventFetchErr;
@@ -39,7 +38,6 @@ export const getSingleEvent: Fn = state => state.event.singleEvent;
 export const getSingleEventErrors: Fn = state => state.event.singleEventErr;
 
 export const getInputType: Fn = state => state.commonState.inputType;
-export const getLogInState: Fn = state => state.commonState.isLogIn;
 export const getShareState: Fn = state => state.commonState.isShared;
 export const getBuyAccessState: Fn = state => state.commonState.buyAccess;
 

@@ -88,18 +88,18 @@ class PurchasedEvents extends Component<Props, State> {
                   to={{
                     pathname: '/singleEventLayout',
                     state: { id: `${purchased._id}`, back: '/PurchasedEvents' },
-                  }}
+                  }}  
                   className="anchor-btn">
                   <div className="paid-request-events">
-                    <p className="border">{dayjs(purchased.eventDate).format('YYYY-MM-DD')}</p>
-                    <p className="border">{purchased.eventRegion}</p>
-                    <p className="border">{purchased.eventGuests}</p>
+                    <p>{dayjs(purchased.eventDate).format('YYYY-MM-DD')}</p>
+                    <p>{purchased.eventRegion}</p>
+                    <p>{purchased.eventGuests}</p>
                   </div>
                 </Link>
               ))
             ) : (
               <div className="paid-request-events">
-                <p className="border">NO PURCHASED MADE YET</p>
+                <p className="no-purchase">NO PURCHASES MADE YET</p>
               </div>
             )}
           </div>

@@ -61,22 +61,27 @@ router.post("/new", async (req, res, next) => {
 		if (emails.includes(req.body.email)) {
 			return res.status(500).send("Customer Already Exist !!");
 		}
+
 		const newCustomer = await stripe.customers.create({
 			email: req.body.email,
 			description: req.body.name,
 			source: "tok_visa",
 		});
+
 		const subscribe = await stripe.charges.create({
 			amount: 20000,
 			currency: "eur",
 			description: "Annual Subscription",
 			customer: newCustomer.id,
 		});
+
 		const editedUser = await User.findByIdAndUpdate(
 			req.body.id,
 			{ stripeCusID: newCustomer.id },
 			{ new: true }
 		);
+		console.log(editedUser);
+
 		res.json({ editedUser });
 	} catch (error) {
 		res.status(422).json(error);

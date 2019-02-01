@@ -26,7 +26,7 @@ export const authentication = values => (dispatch) => {
 };
 
 export const registration = values => dispatch => axios
-  .post('/api/users/register', values)
+  .post('/api/users/register', { ...values, role: 'user' })
   .then(res => dispatch({
     type: SIGNUP_SUCCESS,
     payload: {

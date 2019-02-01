@@ -50,6 +50,10 @@ const EventSchema = new Schema({
 		required: true,
 		select: false,
 	},
+	eventPrice: {
+		type: String,
+		required: false,
+	},
 	eventPurchases: [
 		{
 			user: {

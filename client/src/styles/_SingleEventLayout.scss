@@ -3,14 +3,13 @@
   // margin: auto;
   // display: grid;
 
-
   display: contents;
 
   &__top {
     text-transform: capitalize;
     display: grid;
     grid-gap: 20px;
-    grid-template: 
+    grid-template:
       'back back' min-content
       'calendar details' 1fr
       / 0fr 1fr;
@@ -23,7 +22,7 @@
       grid-area: calendar;
       align-self: center;
     }
-    
+
     &__details {
       grid-area: details;
       display: grid;
@@ -54,10 +53,12 @@
 
   &__date-time {
     grid-area: date-time;
+    text-transform: none;
   }
 
   &__guests {
     grid-area: guests;
+    text-transform: none;
   }
 
   &__item {
@@ -68,7 +69,6 @@
     display: block;
   }
   &__value {
-    
   }
   &__message {
     grid-area: message;
@@ -85,7 +85,6 @@
 
 @media only screen and (max-width: $break-small) {
   .sgl-event-lay {
-  
     &__top {
       grid-template:
         'back calendar .' min-content
@@ -95,56 +94,55 @@
       &__back-button {
         grid-column: auto;
       }
-  
+
       &__details {
         grid-template:
-          'calendar title title title title title' min-content
-          // 'calendar posted posted posted' min-content
-          'date-time date-time date-time guests guests guests' max-content
+          'calendar title title title title title' min-content// 'calendar posted posted posted' min-content
+          'date-time date-time date-time guests guests guests'max-content
           'message message message message message message' min-content
           / 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 20px 10px;
       }
     }
-  
+
     &__title {
       // & > * {
       //   display: inline-block;
       // }
     }
-  
+
     &__posted {
       text-align: left;
     }
-  
-  //   &__date-time {
-  //     grid-area: date-time;
-  //   }
-  
-  //   &__guests {
-  //     grid-area: guests;
-  //   }
-  
-  //   &__item {
-  //     color: $on-light;
-  //     font-weight: bold;
-  //     width: max-content;
-  //     padding-bottom: 10px;
-  //     display: block;
-  //   }
-  //   &__value {
-      
-  //   }
-  //   &__message {
-  //     grid-area: message;
-  //     height: min-content;
-  //     & .sgl-event-lay__value {
-  //       text-transform: none;
-  //       border: 1px solid black;
-  //       border-radius: 5px;
-  //       padding: 10px;
-  //       background: white;
-  //     }
-  //   }
+
+    //   &__date-time {
+    //     grid-area: date-time;
+    //   }
+
+    //   &__guests {
+    //     grid-area: guests;
+    //   }
+
+    //   &__item {
+    //     color: $on-light;
+    //     font-weight: bold;
+    //     width: max-content;
+    //     padding-bottom: 10px;
+    //     display: block;
+    //   }
+    //   &__value {
+
+    //   }
+    //   &__message {
+    //     grid-area: message;
+    //     height: min-content;
+    //     & .sgl-event-lay__value {
+    //       text-transform: none;
+    //       border: 1px solid black;
+    //       border-radius: 5px;
+    //       padding: 10px;
+    //       background: white;
+    //     }
+    //   }
   }
 }

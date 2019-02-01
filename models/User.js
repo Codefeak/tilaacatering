@@ -25,7 +25,11 @@ const UserSchema = new Schema({
 	stripeCusID: {
 		type: String,
 		required: false,
-	}
+	},
+	role: {
+		type: String,
+		required: false,
+	},
 });
 
 const User = mongoose.model("users", UserSchema);

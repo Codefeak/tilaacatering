@@ -23,16 +23,15 @@ export type EventListProps = {
 
 export type Authentication = {
   loading: boolean,
-  authErrors: string,
-  signUpErrors: string,
-  signUpMessage: string,
-  user: {
+  authErrors: null | Array<{}>,
+  signUpMessage: null | Array<{}>,
+  signUpErrors: null | Array<{}>,
+  userData: null | {},
+  user: null | {
     id: string,
     name: string,
     email: string,
   },
-  userData: {},
-  logOut: boolean,
 };
 
 export type Event = {
@@ -49,7 +48,6 @@ export type Event = {
 export type CommonState = {
   inputType: string,
   isShared: string,
-  isLogIn: boolean,
   buyAccess: boolean,
 };
 export type Profile = {

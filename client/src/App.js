@@ -16,7 +16,6 @@ import PublicContainer from './containers/PublicContainer';
 import { getUser } from './store/reducers';
 import * as actions from './store/actions';
 
-
 type Props = {
   user: {},
   logOut: () => mixed,

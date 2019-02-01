@@ -86,14 +86,12 @@ class Profile extends Component<Props, State> {
 
   render() {
     const {
-      handleSubmit, reset, invalid, profileError,
-    } = this.props;
+      handleSubmit, reset, invalid } = this.props;
     const { isEditing } = this.state;
 
     return (
       <div className="profile-layout">
         <div className="profile-layout__info">
-          {console.error(profileError)}
           <form onSubmit={handleSubmit(this.handleClick)} className="profile-form">
             <ul>
               {this.fields.map(field => (

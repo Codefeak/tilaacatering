@@ -8,6 +8,15 @@ const purchasesToArrayLength = event => {
 	const newEvent = {
 		...event,
 		eventPurchases: event.eventPurchases.length,
+		eventPurchasers: event.eventPurchases,
+	};
+	return newEvent;
+};
+
+const defineEventPrice = event => {
+	const newEvent = {
+		...event,
+		eventPrice: event.eventGuests <= "30" ? 0 : "750",
 	};
 	return newEvent;
 };
@@ -29,7 +38,7 @@ router.get("/", (req, res) => {
 	Event.find()
 		.lean()
 		.then(events => {
-			res.json(events.map(event => purchasesToArrayLength(event)));
+			res.json(events.map(event => purchasesToArrayLength(defineEventPrice(event))));
 		});
 });
 
@@ -130,6 +139,7 @@ router.post(
 			eventSubmissionDate: new Date().toJSON(),
 			eventFreeMessage: req.body.eventFreeMessage,
 			eventPurchases: [],
+			eventPrice: defineEventPrice(event),
 			contactName: req.body.contactName,
 			contactEmail: req.body.contactEmail,
 			contactNumber: req.body.contactNumber,
@@ -197,79 +207,81 @@ router.delete("/:eventId", (req, res) => {
 // @route   PUT api/events/:eventId
 // @desc    Edit an event
 // @access  private
-router.put("/:eventId",
-[
-	check("eventDate")
-		.optional({ nullable: true, })
-		.isISO8601()
-		.withMessage(
-			"Date format is not recognized. Input must be a valid ISO 8601 date string with UTC timezone."
-		),
-	check("eventDateEnd")
-		.optional({ nullable: true, })
-		.isISO8601()
-		.withMessage(
-			"Date format is not recognized. Input must be a valid ISO 8601 date string with UTC timezone."
-		),
-	check("eventGuests")
-		.optional({ nullable: true, })
-		.isInt({ min: 1, allow_leading_zeroes: false, })
-		.withMessage("Guests must be a number, and should be more than 0."),
-	check("eventType")
-		.optional({ nullable: true, })
-		.isIn([
-			"Catering only",
-			"Catering and venue",
-			"Catering and program",
-			"Turnkey package",
-		])
-		.withMessage(
-			"Must be one of the following: 'Catering only', 'Catering and venue', 'Catering and program' or 'Turnkey package'"
-		),
-	check("eventRegion")
-		.optional({ nullable: true, })
-		.isLength({ min: 2, max: 20, })
-		.withMessage("Event region must be between 2 and 20 characters"),
-	check("eventFreeMessage")
-		.optional({ nullable: true, })
-		.isLength({ max: 500, })
-		.withMessage("Free message has a maximum of 500 characters"),
-	check("contactName")
-		.optional({ nullable: true, })
-		.isLength({ min: 2, max: 20, })
-		.withMessage("Full name must be between 2 and 20 characters")
-		.not()
-		.matches("[0-9]")
-		.withMessage("Full name cannot contain number"),
-	check("contactEmail")
-		.optional({ nullable: true, })
-		.not()
-		.isEmpty()
-		.withMessage("Email is required")
-		.isEmail()
-		.withMessage("Email is invalid"),
-	check("contactNumber")
-		.optional({ nullable: true, })
-		.matches("^[0-9]{10}")
-		.withMessage("phone number must be of 10 digits"),
-	check("contactAddress")
-		.optional({ nullable: true, })
-		.trim()
-		.isLength({ min: 1, max: 100, })
-		.withMessage("Invalid address"),
-],
-(req, res) => {
-	const id = req.params.eventId;
-	const errors = {};
-	Event.findByIdAndUpdate(id, req.body, { new: true, }).then(event => {
-		if (event) {
-			res.status(200).json(event);
-		} else {
-			errors.updateEvent = "Event cant be updated";
-			res.status(404).json(errors);
-		}
-	});
-});
+router.put(
+	"/:eventId",
+	[
+		check("eventDate")
+			.optional({ nullable: true, })
+			.isISO8601()
+			.withMessage(
+				"Date format is not recognized. Input must be a valid ISO 8601 date string with UTC timezone."
+			),
+		check("eventDateEnd")
+			.optional({ nullable: true, })
+			.isISO8601()
+			.withMessage(
+				"Date format is not recognized. Input must be a valid ISO 8601 date string with UTC timezone."
+			),
+		check("eventGuests")
+			.optional({ nullable: true, })
+			.isInt({ min: 1, allow_leading_zeroes: false, })
+			.withMessage("Guests must be a number, and should be more than 0."),
+		check("eventType")
+			.optional({ nullable: true, })
+			.isIn([
+				"Catering only",
+				"Catering and venue",
+				"Catering and program",
+				"Turnkey package",
+			])
+			.withMessage(
+				"Must be one of the following: 'Catering only', 'Catering and venue', 'Catering and program' or 'Turnkey package'"
+			),
+		check("eventRegion")
+			.optional({ nullable: true, })
+			.isLength({ min: 2, max: 20, })
+			.withMessage("Event region must be between 2 and 20 characters"),
+		check("eventFreeMessage")
+			.optional({ nullable: true, })
+			.isLength({ max: 500, })
+			.withMessage("Free message has a maximum of 500 characters"),
+		check("contactName")
+			.optional({ nullable: true, })
+			.isLength({ min: 2, max: 20, })
+			.withMessage("Full name must be between 2 and 20 characters")
+			.not()
+			.matches("[0-9]")
+			.withMessage("Full name cannot contain number"),
+		check("contactEmail")
+			.optional({ nullable: true, })
+			.not()
+			.isEmpty()
+			.withMessage("Email is required")
+			.isEmail()
+			.withMessage("Email is invalid"),
+		check("contactNumber")
+			.optional({ nullable: true, })
+			.matches("^[0-9]{10}")
+			.withMessage("phone number must be of 10 digits"),
+		check("contactAddress")
+			.optional({ nullable: true, })
+			.trim()
+			.isLength({ min: 1, max: 100, })
+			.withMessage("Invalid address"),
+	],
+	(req, res) => {
+		const id = req.params.eventId;
+		const errors = {};
+		Event.findByIdAndUpdate(id, req.body, { new: true, }).then(event => {
+			if (event) {
+				res.status(200).json(event);
+			} else {
+				errors.updateEvent = "Event cant be updated";
+				res.status(404).json(errors);
+			}
+		});
+	}
+);
 
 // @route   GET api/events/:id/full
 // @desc    Get the full event with all details. This is for admin use only.
@@ -360,7 +372,6 @@ router.put(
 // 			.catch(err => res.status(404).json(err));
 // 	}
 // );
-
 
 // @route   PUT api/events/dev-edit
 // @desc

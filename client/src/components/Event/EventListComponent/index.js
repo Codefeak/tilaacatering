@@ -11,12 +11,14 @@ type Props = {
     eventSubmissionDate: string,
     eventFreeMessage: string,
     eventPurchases: number,
+    eventPurchasers: Array<{ _id: string }>,
   },
+  purchaseLevel: string,
   purchased: string,
 };
-const Event = ({ event, purchased }: Props) => {
+const Event = ({ event, purchased, purchaseLevel }: Props) => {
   const {
-    eventDate, eventGuests, eventType, eventRegion,
+    eventDate, eventGuests, eventType, eventRegion, eventPurchasers,
   } = event;
   return (
     <ul className="event_panel">
@@ -26,6 +28,11 @@ const Event = ({ event, purchased }: Props) => {
       <li>{eventRegion}</li>
       <li>{eventGuests}</li>
       <li>{eventType}</li>
+      <li className="purchase-level">
+        {eventPurchasers.map(buyer => (
+          <p key={buyer._id} className={`purchase-level--circle ${purchaseLevel}`} />
+        ))}
+      </li>
       <li className={purchased} />
     </ul>
   );

@@ -100,6 +100,9 @@
         background-color: transparent;
         border-bottom: 1px solid $teritary;
         height: 30px;
+        ::placeholder {
+          color: $secondary;
+        }
       }
       &--error {
         @include errors;

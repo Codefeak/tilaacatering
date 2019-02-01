@@ -5,17 +5,19 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import type { StoreState } from '../../utls/flowTypes';
+
 import * as actions from '../../store/actions';
-import { getLogInState } from '../../store/reducers';
+import { getCheckUser } from '../../store/reducers';
 
 type M = Array<{ field: string, path: string, className: string }>;
 type Props = {
   logout: () => mixed,
   MenuList: M,
+  User: null | {},
 };
 
 const Burger = (props: Props) => {
-  const { logout, MenuList } = props;
+  const { logout, MenuList, User } = props;
   return (
     <React.Fragment>
       <div className="burger">
@@ -27,11 +29,13 @@ const Burger = (props: Props) => {
               </Link>
             </li>
           ))}
-          <li>
-            <Link to="/" onClick={() => logout()}>
-              <span className="fas fa-power-off" />
-            </Link>
-          </li>
+          {User !== null && (
+            <li>
+              <Link to="/" onClick={() => logout()}>
+                <span className="fas fa-power-off" />
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </React.Fragment>
@@ -39,7 +43,7 @@ const Burger = (props: Props) => {
 };
 
 const mapStateToProps = (state: StoreState) => ({
-  isLogIn: getLogInState(state),
+  User: getCheckUser(state),
 });
 
 export default connect(

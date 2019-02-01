@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+// const Event = require("../models/Event");
 const secret = require("../config/keys").secret;
 const { check, validationResult, } = require("express-validator/check");
 
@@ -54,6 +55,7 @@ router.post(
 			return res.status(422).json({ errors: errors.array(), });
 		}
 		User.findOne({ email: req.body.email, }).then(user => {
+			console.log(req.body);
 			if (user) {
 				return res
 					.status(400)
@@ -65,6 +67,7 @@ router.post(
 					company: req.body.company,
 					password: req.body.newPassword,
 					phone: req.body.phone,
+					role: req.body.role,
 					stripeCusID: req.body.stripeCusID,
 				});
 				bcrypt.genSalt(10, (err, salt) => {
@@ -129,6 +132,7 @@ router.post(
 						company: user.company,
 						email: user.email,
 						phone: user.phone,
+						role: user.role,
 						stripeCusID: user.stripeCusID,
 					});
 				} else {
@@ -155,9 +159,31 @@ router.get(
 			id: req.user.id,
 			name: req.user.name,
 			email: req.user.email,
+			role: req.user.role,
 			stripeCusID: req.user.stripeCusID,
 		});
 	}
 );
 
+// // Used once updating role and again for emptying purchasers...
+//router.put("/role", (req, res) => {
+// User.findOneAndUpdate(
+// 	{ email: "rojak.amatya@integrify.io", },
+// 	{ role: "admin", }
+// ).then(user => res.send(user));
+// Event.updateMany({}, { eventPurchases: [], }).then(event => res.send(event));
+//});
+
+// Get List of users
+router.get("/", (req, res) => {
+	User.find().then(user => res.send(user));
+});
+
+// Delete individual user
+router.delete("/:userId", (req, res) => {
+	const id = req.params.userId;
+	User.findByIdAndDelete(id)
+		.exec()
+		.then(res.send("Successfully Deleted"));
+});
 module.exports = router;
