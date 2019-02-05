@@ -29,6 +29,7 @@ type Props = {
     contactName: string,
     contactEmail: string,
     contactNumber: string,
+    eventPrice: string,
   },
   id: string,
   buyAccessState: boolean,
@@ -38,7 +39,7 @@ type Props = {
 const FullEvent = (props: Props) => {
   const { fullEventDetails, buyAccessState, handleBuyAccess } = props;
   const {
-    contactName, contactEmail, contactAddress, contactNumber,
+    contactName, contactEmail, contactAddress, contactNumber, eventPrice,
   } = fullEventDetails;
   const handleOnClick = () => {
     handleBuyAccess(buyAccessState);
@@ -57,7 +58,7 @@ const FullEvent = (props: Props) => {
               onClick={handleOnClick}/>
           </div>
           <div className={`full-event__stripe-form ${buyAccessState ? 'show' : 'hide'}`}>
-            <CheckoutForm {...props} />
+            <CheckoutForm {...props} >Are you sure to buy this event ? ${Number(eventPrice)/100} € is will be added to your next Invoice.</CheckoutForm>
           </div>
         </div>
       ) : (
@@ -88,7 +89,7 @@ const FullEvent = (props: Props) => {
             </span>
           </div>
 
-          <LocationMap className="full-event__map" contactAddress={contactAddress}/>
+          <LocationMap className="full-event__map" contactAddress={contactAddress} />
 
           <div className="full-event__purchase-info">
             <h2>Purchase Details</h2>

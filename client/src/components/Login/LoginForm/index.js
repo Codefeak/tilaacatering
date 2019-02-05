@@ -23,7 +23,7 @@ const renderField = ({
 }) => (
   <div>
     <div>
-      <input autoComplete="off" {...input} placeholder={placeholder} type={type} />
+      <input autoComplete="on" {...input} placeholder={placeholder} type={type} />
       {touched && (error && <p className="login-form_section--error">{error}</p>)}
       {touched && (emailErr && <p className="login-form_section--error">{emailErr.email}</p>)}
       {touched && (pwdErr && <p className="login-form_section--error">{pwdErr.password}</p>)}

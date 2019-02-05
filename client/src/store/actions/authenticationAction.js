@@ -3,10 +3,12 @@ import {
   START_FETCHING,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILS,
+  SUBSCRIPTION_FAILS,
   SIGNUP_SUCCESS,
   SIGNUP_FAILS,
   LOG_OUT,
   CHECK_USER,
+  FETCH_USER,
 } from './types';
 
 export const startFetching = () => ({
@@ -17,12 +19,21 @@ export const authenticationSuccess = user => ({
   payload: user,
 });
 
-export const authentication = values => (dispatch) => {
+export const authentication = values => async (dispatch) => {
   dispatch(startFetching());
-  return axios
+  await axios
     .post('/api/users/login', values)
-    .then(res => dispatch(authenticationSuccess(res.data)))
-    .catch(err => dispatch({ type: AUTHENTICATION_FAILS, payload: err.response.data }));
+    .then(response => dispatch(
+      axios
+        .post('/stripe/checkSubscription', { ...values, data: response.data })
+        .then(res => (res.data === 'Subscribed'
+          ? dispatch(authenticationSuccess(response.data))
+          : dispatch({
+            type: SUBSCRIPTION_FAILS,
+            payload: { err: res.data, values, userData: response.data },
+          }))),
+    ))
+    .catch(err => dispatch({ type: AUTHENTICATION_FAILS, payload: err.response && err.response.data }));
 };
 
 export const registration = values => dispatch => axios
@@ -54,4 +65,12 @@ export const checkUser = () => async (dispatch) => {
     .get('/api/users/current')
     .then(res => dispatch(checkUserSuccess(res.data)))
     .catch(() => dispatch(logOut()));
+};
+
+export const fetchAllUser = () => async (dispatch) => {
+  dispatch(startFetching());
+  await axios
+    .get('/api/users/')
+    .then(res => dispatch({ type: FETCH_USER, payload: res.data }))
+    .catch(err => err.response);
 };

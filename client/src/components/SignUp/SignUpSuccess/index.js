@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Subsribe from '../../Stripe/Subsribe';
+import Subscribe from '../../Stripe/Subsribe';
 
 type Props = {};
 
@@ -13,7 +13,7 @@ const SignUpSuccess = (props: Props) => (
         You have successfully singed up.
         <p>Please Subscribe Now</p>
       </p>
-      <Subsribe {...props} />
+      <Subscribe {...props} />
     </div>
   </div>
 );

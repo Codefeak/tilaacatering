@@ -3,35 +3,32 @@ import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 
 // import AddressSection from './AddressSection';
-import CardSection from './CardSection';
 import Button from '../Button';
 
-class CheckoutForm extends React.Component {
-  handleSubmit = async (e) => {
-    const { stripe, currentUser } = this.props;
+const CheckoutForm = (props) => {
+  const { stripe, currentUser, children } = props;
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    await stripe.createToken({ name: currentUser.name }).then(token => axios.post('/stripe/charge', {
+    await stripe.createToken('account').then(token => axios.post('/stripe/invoice/charge', {
       stripeToken: token.token,
       email: currentUser.email,
       stripeCusID: currentUser.stripeCusID,
     }));
     const {
       purchaseEvent, id, handleBuyAccess, buyAccessState,
-    } = this.props;
+    } = props;
     purchaseEvent(id);
     handleBuyAccess(buyAccessState);
   };
-
-  render() {
-    return (
-      <form className="stripe-form" onSubmit={this.handleSubmit}>
-        <CardSection />
-        <div className="stripe-form-btns">
-          <Button type="submit" label="Confirm Payment" variant="contained" color="on-light" />
-        </div>
-      </form>
-    );
-  }
-}
+  
+  return (
+    <form className="stripe-form" onSubmit={handleSubmit}>
+      {children}
+      <div className="stripe-form-btns">
+        <Button type="submit" label="Buy Event" variant="contained" color="on-light" />
+      </div>
+    </form>
+  );
+};
 
 export default injectStripe(CheckoutForm);

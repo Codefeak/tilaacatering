@@ -23,7 +23,7 @@ type fields = {
   eventFreeMessage: string,
   eventGuests: number,
   eventPurchases: number,
-  eventPurchasers: {},
+  eventPurchasers: Array<{ _id: string }>,
   eventRegion: string,
   eventSubmissionDate: string,
   eventType: string,
@@ -236,7 +236,8 @@ class EventList extends React.Component<Props, State> {
           </div>
         </div>
         <div className="list-container">
-          {events.map(event => (user.role === 'admin' ? (
+          {events.map((event) => {
+            const element = (
               <div className="event-list" key={event._id}>
                 <Link
                   to={{
@@ -253,26 +254,9 @@ class EventList extends React.Component<Props, State> {
                     }/>
                 </Link>
               </div>
-          ) : (
-            event.eventPurchases < 6 && (
-                <div className="event-list" key={event._id}>
-                  <Link
-                    to={{
-                      pathname: '/singleEventLayout',
-                      state: { id: `${event._id}`, back: '/' },
-                    }}
-                    className="anchor-btn">
-                    <Event
-                      event={event}
-                      convertDate={convertDate}
-                      purchaseLevel={this.determinePurchaseLevel(event)}
-                      purchased={
-                        purchasedEvents.map(tmp => tmp._id).includes(event._id) ? 'purchased' : ''
-                      }/>
-                  </Link>
-                </div>
-            )
-          )))}
+            );
+            return user.role === 'admin' ? element : event.eventPurchases < 6 && element;
+          })}
         </div>
       </React.Fragment>
     );

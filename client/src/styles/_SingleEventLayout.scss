@@ -29,7 +29,7 @@
       grid-template:
         'title title posted' min-content
         'date-time message message' max-content
-        'guests message message' min-content
+        'guests price purchasers' min-content
         / min-content auto auto;
       grid-gap: 30px 40px;
     }
@@ -81,6 +81,16 @@
       background: white;
     }
   }
+  &__price {
+    & .sgl-event-lay__value {
+      font-size: 2rem;
+    }
+  }
+  &__purchasers {
+    & .sgl-event-lay__value {
+      font-weight: 600;
+    }
+  }
 }
 
 @media only screen and (max-width: $break-small) {
@@ -98,7 +108,7 @@
       &__details {
         grid-template:
           'calendar title title title title title' min-content// 'calendar posted posted posted' min-content
-          'date-time date-time date-time guests guests guests'max-content
+          'date-time date-time date-time guests guests guests' max-content
           'message message message message message message' min-content
           / 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 20px 10px;

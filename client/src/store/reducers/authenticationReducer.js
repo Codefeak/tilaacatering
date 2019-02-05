@@ -4,10 +4,12 @@ import {
   START_FETCHING,
   AUTHENTICATION_SUCCESS,
   AUTHENTICATION_FAILS,
+  SUBSCRIPTION_FAILS,
   SIGNUP_SUCCESS,
   SIGNUP_FAILS,
   LOG_OUT,
   CHECK_USER,
+  FETCH_USER,
 } from '../actions/types';
 import type { Authentication } from '../../utls/flowTypes';
 
@@ -43,6 +45,12 @@ export default function (state: Authentication = initialState, action: Action) {
         loading: false,
         authErrors: action.payload,
       };
+    case SUBSCRIPTION_FAILS:
+      return {
+        ...state,
+        loading: false,
+        subsErrors: action.payload,
+      };
     case SIGNUP_SUCCESS: {
       const { data, message } = action.payload;
       return {
@@ -64,6 +72,12 @@ export default function (state: Authentication = initialState, action: Action) {
         ...state,
         loading: false,
         user: action.payload,
+      };
+    case FETCH_USER:
+      return {
+        ...state,
+        loading: false,
+        allUser: action.payload,
       };
     case LOG_OUT:
       return {

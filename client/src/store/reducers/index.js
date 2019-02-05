@@ -19,8 +19,10 @@ export default combineReducers({
 
 export const getAuthentication: Fn = state => state.authentication;
 export const getUser: Fn = state => state.authentication.user;
+export const getUserList: Fn = state => state.authentication.allUser;
 export const getSignedUpData: Fn = state => state.authentication.userData;
 export const getAuthenticationErrors: Fn = state => state.authentication.authErrors;
+export const getSubscriptionErrors: Fn = state => state.authentication.subsErrors;
 
 export const getSignUpMessage: Fn = state => state.authentication.signUpMessage;
 export const getSignUpErrors: Fn = state => state.authentication.signUpErrors;

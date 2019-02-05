@@ -7,6 +7,7 @@ export {
   registration,
   logOut,
   checkUser,
+  fetchAllUser,
 } from './authenticationAction';
 
 export {

@@ -168,16 +168,16 @@ router.get(
 			.then(event => {
 				if (event) {
 					purchased(event, req.user.id)
-						? res.json(purchasesToArrayLength(event))
+						? res.json(purchasesToArrayLength(defineEventPrice(event)))
 						: res.json(
-							purchasesToArrayLength(
+							purchasesToArrayLength(defineEventPrice(
 								Object.keys(event).reduce((obj, key) => {
 									if (!arrayPurchaseFields.includes(key)) {
 										obj[key] = event[key];
 									}
 									return obj;
 								}, {})
-							)
+							))
 						  );
 				}
 			})
@@ -330,7 +330,7 @@ router.put(
 						event
 							.save()
 							.then(event =>
-								res.json(purchasesToArrayLength(event.toObject()))
+								res.json(purchasesToArrayLength(defineEventPrice(event.toObject())))
 							);
 					}
 				} else {

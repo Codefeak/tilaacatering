@@ -116,6 +116,19 @@
     }
   }
 }
+.login {
+  @include layout;
+  &__subs-fails {
+    @include container;
+    width: 500px;
+    &__heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $secondary;
+      margin: 10px;
+    }
+  }
+}
 .sign-up {
   @include layout;
   &__success {

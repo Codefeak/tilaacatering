@@ -6,12 +6,13 @@ import type { StoreState } from '../../utls/flowTypes';
 
 import LoginForm from '../../components/Login/LoginForm';
 import LoginLayout from '../../components/Login/LoginLayout';
+import SubsFails from '../../components/Login/SubsFails';
 import SignUpForm from '../../components/SignUp/SignUpForm';
 import SignUpLayout from '../../components/SignUp/SignUpLayout';
 import SignUpSuccess from '../../components/SignUp/SignUpSuccess';
 import {
-  getAuthentication,
   getAuthenticationErrors,
+  getSubscriptionErrors,
   getSignUpMessage,
   getSignUpErrors,
   getSignedUpData,
@@ -24,7 +25,9 @@ type Props = {
   location: { pathname: string },
   signUpMsg: number,
   signUpErr: string,
-  userData: {},
+  stripeErr: { userData: { stripeCusID: string } },
+  signedUpData: {},
+  user: {},
   loginErr: { errors: {} },
 };
 type State = {
@@ -42,14 +45,6 @@ class Login extends React.Component<Props, State> {
     view: 'login',
   };
 
-  toggleFalse2: HandleFunction = () => {
-    this.setState({ signUp: false });
-  };
-
-  handleSignUp2: HandleFunction = () => {
-    this.setState({ signUp: true });
-  };
-
   viewChangeTo: HandleFunction = (view) => {
     this.setState({ view });
   };
@@ -58,12 +53,15 @@ class Login extends React.Component<Props, State> {
     const {
       authentication,
       registration,
-      signUpMsg,
       signUpErr,
       signedUpData,
       loginErr,
+      stripeErr,
     } = this.props;
+    // eslint-disable-next-line prefer-const
+    let { signUpMsg } = this.props;
     const { view } = this.state;
+
     // Swtich for rendering different views. "login" || "signUp" || "signUpSuccess"
     switch (view) {
       case 'signUp':
@@ -73,14 +71,21 @@ class Login extends React.Component<Props, State> {
               onSubmit={registration}
               signUpMsg={signUpMsg}
               signUpErr={signUpErr}
-              toggleFalse={this.toggleFalse2}
               viewChangeTo={this.viewChangeTo}/>
             {!!signUpMsg && this.viewChangeTo('signUpSuccess')}
           </SignUpLayout>
         );
 
       case 'signUpSuccess':
-        return <SignUpSuccess viewChangeTo={this.viewChangeTo} currentUser={signedUpData} />;
+        return (
+          <SignUpSuccess
+            viewChangeTo={this.viewChangeTo}
+            signUpMsg={signUpMsg}
+            currentUser={signedUpData}/>
+        );
+
+      case 'subsFails':
+        return <SubsFails viewChangeTo={this.viewChangeTo} currentUser={stripeErr.userData} />;
 
       case 'login':
       default:
@@ -91,6 +96,7 @@ class Login extends React.Component<Props, State> {
               onSubmit={authentication}
               viewChangeTo={this.viewChangeTo}
               errors={loginErr && loginErr.errors}/>
+            {!!stripeErr && this.viewChangeTo('subsFails')}
           </LoginLayout>
         );
     }
@@ -98,8 +104,8 @@ class Login extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: StoreState) => ({
-  user: getAuthentication(state),
   loginErr: getAuthenticationErrors(state),
+  stripeErr: getSubscriptionErrors(state),
   signUpMsg: getSignUpMessage(state),
   signUpErr: getSignUpErrors(state),
   signedUpData: getSignedUpData(state),

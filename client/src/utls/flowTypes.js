@@ -20,18 +20,21 @@ export type EventListProps = {
   fetchEvent: () => mixed,
   convertDate: (inputFormat: string) => () => string,
 };
+type User = null | {
+  id: string,
+  name: string,
+  email: string,
+};
 
 export type Authentication = {
   loading: boolean,
   authErrors: null | Array<{}>,
   signUpMessage: null | Array<{}>,
   signUpErrors: null | Array<{}>,
+  subsErrors: null | Array<{}>,
   userData: null | {},
-  user: null | {
-    id: string,
-    name: string,
-    email: string,
-  },
+  user: User,
+  allUser: Array<User>,
 };
 
 export type Event = {

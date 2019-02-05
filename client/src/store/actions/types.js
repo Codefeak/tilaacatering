@@ -3,10 +3,12 @@
 export const START_FETCHING: string = 'START_FETCHING';
 export const AUTHENTICATION_SUCCESS: string = 'AUTHENTICATION_SUCCESS';
 export const AUTHENTICATION_FAILS: string = 'AUTHENTICATION_FAILS';
+export const SUBSCRIPTION_FAILS: string = 'SUBSCRIPTION_FAILS';
 
 export const SIGNUP_SUCCESS: string = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILS: string = 'SiGNUP_FAILS';
 
+export const FETCH_USER: string = 'FETCH_USER';
 export const CHECK_USER: string = 'CHECK_USER';
 export const LOG_OUT: string = 'LOG_OUT';
 
